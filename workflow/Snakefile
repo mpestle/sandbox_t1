@@ -1,17 +1,75 @@
-# The main entry point of your workflow.
-# After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
+# Main entrypoint of the workflow. 
+# Please follow the best practices: 
+# https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html,
+# in particular regarding the standardized folder structure mentioned there. 
 
-report: "report/workflow.rst"
+configfile: "config/inputs.yaml"
 
-# Allow users to fix the underlying OS via singularity.
-singularity: "docker://continuumio/miniconda3"
+singularity_samtools = config["singularity_samtools"]
+singularity_java     = config["singularity_java"]
+singularity_vt       = config["singularity_vt"]
+singularity_vt2      = config["singularity_vt2"]
+varscanLib           = config["varscanLib"]
+picardLib            = config["picardLib"]
+referenceFile        = config["referenceFile"]
+vcfannoConfig        = config["vcfannoConfig"]
 
+bamBaiFiles          = "resources/{sample}.bam.bai"
+normalizedVCF        = "results/{sample}.normalised.vcf"
+normalizedVCFgz      = "results/{sample}.normalised.vcf.gz"
+normalizedVCFgztbi   = "results/{sample}.normalised.vcf.gz.tbi"
+annotatedVCF         = "results/{sample}.annotated.vcf"
+filteredVCF          = "results/{sample}.filtered.vcf"
+dupFiles             = "int/{sample}.markDuplicates.bam"
+sortedFiles          = "int/{sample}.markDuplicates.sorted.bam"
+sortedBamFiles       = "int/{sample}.markDuplicates.sorted.bam.bai"
+pileupFiles          = "int/{sample}.pileup"
+varscanFiles         = "int/{sample}.varscan.germline.vcf"
+decompFiles          = "int/{sample}.decomposed.vcf"
+normalisedFiles      = "int/{sample}.normalised.vcf"
+normalisedGzFiles    = "int/{sample}.normalised.vcf.gz"
+normalisedGzTbiFiles = "int/{sample}.normalised.vcf.gz.tbi"
+annotatedFiles       = "int/{sample}.annotated.vcf"
+filteredFiles        = "int/{sample}.filtered.vcf"
+
+import pandas as pd
+t = pd.read_table(config["samplesFile"],header=None,names=["sample"],comment="#")
+t.set_index('sample',inplace=True)
+sampleName=t.index.values
+
+all_results = expand([bamBaiFiles], sample = sampleName) \
+	,expand([dupFiles], sample = sampleName) \
+	,expand([sortedFiles], sample = sampleName) \
+	,expand([sortedBamFiles], sample = sampleName) \
+	,expand([pileupFiles], sample = sampleName) \
+	,expand([varscanFiles], sample = sampleName) \
+	,expand([decompFiles], sample = sampleName) \
+	,expand([normalisedFiles], sample = sampleName) \
+	,expand([normalisedGzFiles], sample = sampleName) \
+	,expand([normalisedGzTbiFiles], sample = sampleName) \
+	,expand([annotatedFiles], sample = sampleName) \
+	,expand([filteredFiles], sample = sampleName) \
+
+#all_results = expand([normalizedVCF], sample = sampleName) \
+#	,expand([bamBaiFiles], sample = sampleName) \
+#	,expand([annotatedVCF], sample = sampleName) \
+#	,expand([filteredVCF], sample = sampleName) \
+#	,expand([normalizedVCFgz], sample = sampleName) \
+#	,expand([normalizedVCFgztbi], sample = sampleName)
 
 rule all:
     input:
-        # The first rule should define the default target files
-        # Subsequent target rules can be specified below. They should start with all_*.
+        all_results
 
-
-include: "rules/common.smk"
-include: "rules/other.smk"
+#include: "rules/r1.smk"
+include: "rules/index.smk"
+include: "rules/markDuplicates.smk"
+include: "rules/markDuplicatesSort.smk"
+include: "rules/markDuplicatesSortIndex.smk"
+include: "rules/germlinePileup.smk"
+include: "rules/varscan.smk"
+include: "rules/decompose.smk"
+include: "rules/normalise.smk"
+include: "rules/normaliseIndex.smk"
+include: "rules/annotate.smk"
+include: "rules/filter.smk"
