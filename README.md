@@ -6,6 +6,7 @@
 
 A Snakemake workflow for `<description>`
 
+Some mods by MP.
 
 ## Usage
 
