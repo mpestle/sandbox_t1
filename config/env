@@ -1,6 +1,4 @@
-# Set SINGULARITY_BIND environment variable
-# so the singularities mount these mount points
-# and data can be accessed safely from other directories.
+# Set environment variables required by the workflow here.
 export TMP=./tmp
 export TMPDIR=$TMP
 export JVM_ARGS="-Djava.io.tmpdir=$TMPDIR -Xmx1900m"
