@@ -4,6 +4,7 @@
 # in particular regarding the standardized folder structure mentioned there. 
 
 configfile: "config/inputs.yaml"
+sampleName, = glob_wildcards("resources/{id}.bam") # Bam files to iterate across
 
 singularity_samtools = config["singularity_samtools"]
 singularity_java     = config["singularity_java"]
@@ -32,11 +33,6 @@ normalisedGzTbiFiles = "int/{sample}.normalised.vcf.gz.tbi"
 annotatedFiles       = "int/{sample}.annotated.vcf"
 filteredFiles        = "int/{sample}.filtered.vcf"
 
-import pandas as pd
-t = pd.read_table(config["samplesFile"],header=None,names=["sample"],comment="#")
-t.set_index('sample',inplace=True)
-sampleName=t.index.values
-
 all_results = expand([bamBaiFiles], sample = sampleName) \
 	,expand([dupFiles], sample = sampleName) \
 	,expand([sortedFiles], sample = sampleName) \
@@ -49,13 +45,6 @@ all_results = expand([bamBaiFiles], sample = sampleName) \
 	,expand([normalisedGzTbiFiles], sample = sampleName) \
 	,expand([annotatedFiles], sample = sampleName) \
 	,expand([filteredFiles], sample = sampleName) \
-
-#all_results = expand([normalizedVCF], sample = sampleName) \
-#	,expand([bamBaiFiles], sample = sampleName) \
-#	,expand([annotatedVCF], sample = sampleName) \
-#	,expand([filteredVCF], sample = sampleName) \
-#	,expand([normalizedVCFgz], sample = sampleName) \
-#	,expand([normalizedVCFgztbi], sample = sampleName)
 
 rule all:
     input:

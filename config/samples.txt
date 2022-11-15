@@ -1,3 +1,0 @@
-# This file will be filled in by the
-# data gathering process after data is retrieved
-# from the secure endpoint within the walled garden.

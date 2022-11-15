@@ -8,6 +8,7 @@ A template workflow for Rakeiora - this is workflow 1 - Germline
 
 - put resources into the /resources directory
 - ensure there is a config directory and samples.txt file in that directory
-
-If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) <repo>sitory and its DOI (see above).
-
+- the sandbox and portal will create/fill in samples.txt when you run the workflow,
+with the data that you select.
+- ensure any datafiles/results you want back are created in the results directory
+- any environment settings ($TMP, JVM parameters, etc) go into the config/env file
