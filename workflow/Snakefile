@@ -30,8 +30,8 @@ decompFiles          = "int/{sample}.decomposed.vcf"
 normalisedFiles      = "int/{sample}.normalised.vcf"
 normalisedGzFiles    = "int/{sample}.normalised.vcf.gz"
 normalisedGzTbiFiles = "int/{sample}.normalised.vcf.gz.tbi"
-annotatedFiles       = "int/{sample}.annotated.vcf"
-filteredFiles        = "int/{sample}.filtered.vcf"
+annotatedFiles       = "results/{sample}.annotated.vcf"
+filteredFiles        = "results/{sample}.filtered.vcf"
 
 all_results = expand([bamBaiFiles], sample = sampleName) \
 	,expand([dupFiles], sample = sampleName) \
