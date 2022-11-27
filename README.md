@@ -6,6 +6,8 @@ A template workflow for Rakeiora - this is workflow 1 - Germline
 
 ## Usage
 
+- One input for this workflow needs to be defined: It requires READS, can be
+single or multi select, should be restricted to NORMAL samples, and merged BY SAMPLE.
 - the sandbox and portal will put retrieved input data into the /resources directory
 - ensure any datafiles/results that you want to inspect are created in the results directory
 - the sandbox and portal copy /results and /logs to the jupyter hub for your inspection
