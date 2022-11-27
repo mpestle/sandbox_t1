@@ -5,7 +5,7 @@ rule varscanGermline:
     output:
         varscanVcf = "int/{sample}.varscan.germline.vcf"
     log:
-        error = "log/{sample}_varscan.Germline.log"
+        error = "logs/{sample}_varscan.Germline.log"
     threads:
         2
 #    resources:
