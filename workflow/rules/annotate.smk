@@ -17,7 +17,7 @@ rule annotate:
     input:
         vcf = rules.normalise_index.output.vcfgz
     output:
-        annotatedVcf = "int/{sample}.annotated.vcf",
+        annotatedVcf = "results/{sample}.annotated.vcf",
     log:
         annotationLogs = "logs/{sample}.annotation.log"
     threads:

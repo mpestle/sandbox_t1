@@ -4,7 +4,7 @@ rule filter:
     input:
         vcf = rules.annotate.output.annotatedVcf
     output:
-        filteredVcf = "int/{sample}.filtered.vcf",
+        filteredVcf = "results/{sample}.filtered.vcf",
     log:
         filteringLogs = "logs/{sample}.filtering.log"
     threads:
