@@ -6,9 +6,10 @@ A template workflow for Rakeiora - this is workflow 1 - Germline
 
 ## Usage
 
-- put resources into the /resources directory
-- ensure there is a config directory and samples.txt file in that directory
-- the sandbox and portal will create/fill in samples.txt when you run the workflow,
-with the data that you select.
-- ensure any datafiles/results you want back are created in the results directory
+- the sandbox and portal will put retrieved input data into the /resources directory
+- ensure any datafiles/results that you want to inspect are created in the results directory
+- the sandbox and portal copy /results and /logs to the jupyter hub for your inspection
 - any environment settings ($TMP, JVM parameters, etc) go into the config/env file
+- Note that this workflow would not be acceptable in Rakeiora, since it produces
+vcf.gz files in the results directory. So this workflow would probably be rejected -
+it should do the actual analysis and only place the results in the results directory.
